@@ -1,0 +1,1250 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LKM Digital - Flowchart dan Pseudocode</title>
+
+<style>
+:root {
+  --green:#2e7d32;
+  --light-green:#a5d6a7;
+  --blue:#1976d2;
+  --red:#c62828;
+  --bg:#f4f8f4;
+  --text:#203126;
+  --border:#dce7dd;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.55;
+}
+header{
+  background:linear-gradient(120deg,#1b5e20,#43a047);
+  color:white;
+  padding:28px 18px;
+}
+.hero{
+  max-width:1050px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+.hero h1{font-size:clamp(24px,4vw,38px);line-height:1.2}
+.hero svg{width:230px;max-width:40%}
+main{max-width:1050px;margin:25px auto;padding:0 15px}
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:0 5px 18px #00000008;
+}
+.section-title{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:18px;
+}
+.letter{
+  background:#e8f5e9;
+  color:var(--green);
+  border-radius:10px;
+  padding:9px 14px;
+  font-weight:bold;
+}
+h2{font-size:19px;margin:0}
+h3{font-size:16px}
+p{margin-top:5px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.field{display:flex;flex-direction:column;gap:6px}
+label{font-weight:600;font-size:14px}
+input,textarea{
+  width:100%;
+  padding:11px;
+  border:1px solid #bdcfc0;
+  border-radius:9px;
+  font:inherit;
+}
+textarea{min-height:100px;resize:vertical}
+.large{min-height:270px;font-family:monospace}
+button{
+  border:none;
+  border-radius:9px;
+  padding:11px 16px;
+  background:var(--green);
+  color:white;
+  font:inherit;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:hover{filter:brightness(.92)}
+.blue{background:var(--blue)}
+.red{background:var(--red)}
+.light{
+  background:#e8f5e9;
+  color:#1b5e20;
+  border:1px solid var(--light-green);
+}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:14px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th,td{
+  padding:11px;
+  border:1px solid var(--border);
+  text-align:left;
+  vertical-align:top;
+}
+th{background:#edf6ee}
+.table-wrap{overflow-x:auto}
+.notice{
+  background:#fff8e1;
+  color:#795400;
+  border:1px solid #f0d58c;
+  padding:13px;
+  border-radius:10px;
+  margin-top:14px;
+}
+.upload{
+  display:block;
+  padding:25px;
+  text-align:center;
+  border:2px dashed #81b784;
+  background:#f7fcf7;
+  border-radius:12px;
+  cursor:pointer;
+}
+.upload input{display:none}
+.preview{
+  display:none;
+  max-width:100%;
+  max-height:400px;
+  margin:15px auto;
+  border-radius:10px;
+}
+.editor{
+  margin-top:20px;
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#fafdfa;
+}
+.block-bank,.sequence{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:12px;
+  min-height:55px;
+  border:1px dashed #9bbd9e;
+  border-radius:10px;
+  background:white;
+}
+.sequence{margin-top:10px;background:#f6faf6}
+.flow-block{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 10px;
+  background:#e8f5e9;
+  color:#205326;
+  border:1px solid #8db991;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:grab;
+  user-select:none;
+}
+.flow-block button{
+  padding:0 3px;
+  background:transparent;
+  color:#a11;
+}
+.feedback{
+  padding:12px;
+  margin-top:12px;
+  background:#f1f6f1;
+  border-radius:9px;
+}
+.success{background:#e8f5e9;color:#1b5e20}
+.error{background:#ffebee;color:#b71c1c}
+.good-row{background:#e8f5e9}
+.bad-row{background:#ffebee}
+.progress-area{
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:#f4f8f4ee;
+  padding:10px 0;
+}
+.progress-track{
+  height:10px;
+  background:#dce8dd;
+  border-radius:20px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  width:0;
+  background:var(--green);
+  transition:.3s;
+}
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  font-weight:bold;
+  font-size:14px;
+}
+.small{font-size:13px;color:#647568}
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#173d20;
+  color:white;
+  padding:12px 20px;
+  border-radius:10px;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:20;
+}
+.toast.show{opacity:1}
+@media(max-width:650px){
+  .hero{flex-direction:column}
+  .hero svg{max-width:70%}
+  .grid{grid-template-columns:1fr}
+  .card{padding:16px}
+}
+@media print{
+  body{background:white}
+  header{background:white!important;color:#173d20}
+  .hero svg{width:130px}
+  .progress-area,.no-print,.toast{display:none!important}
+  main{margin:0;padding:5px}
+  .card{box-shadow:none;break-inside:avoid}
+  button{display:none!important}
+  textarea{min-height:65px}
+  table{font-size:10px}
+  .table-wrap{overflow:visible}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="hero">
+<div>
+<p><b>LEMBAR KERJA MURID DIGITAL</b></p>
+<h1>LKM Digital — Flowchart &amp; Pseudocode Sistem Penyiraman Otomatis</h1>
+<p>Belajar merancang algoritma sistem penyiraman tanaman otomatis.</p>
+</div>
+
+<svg viewBox="0 0 250 190" role="img" aria-label="Ilustrasi tanaman dan pompa">
+<path d="M120 155V75" stroke="#dcedc8" stroke-width="7"/>
+<path d="M120 110Q60 105 70 55Q115 55 120 110" fill="#a5d6a7"/>
+<path d="M120 90Q170 80 175 40Q135 35 120 90" fill="#c8e6c9"/>
+<path d="M80 150Q120 185 160 150L150 120H90Z" fill="#a66b43"/>
+<rect x="15" y="110" width="55" height="35" rx="7" fill="#bbdefb"/>
+<rect x="190" y="105" width="45" height="45" rx="7" fill="#90caf9"/>
+<path d="M120 155H190" stroke="white" stroke-width="3" stroke-dasharray="5 5"/>
+<path d="M210 105V80" stroke="white" stroke-width="4"/>
+<path d="M210 80Q195 96 210 101Q225 96 210 80" fill="#bbdefb"/>
+</svg>
+</div>
+</header>
+
+<main>
+
+<div class="progress-area no-print">
+<div class="progress-top">
+<span>Progres Pengerjaan</span>
+<span id="progressText">0%</span>
+</div>
+<div class="progress-track">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+</div>
+
+<!-- BAGIAN A -->
+<section class="card" id="bagianA">
+<div class="section-title">
+<span class="letter">A</span>
+<div><h2>Identitas Kelompok</h2>
+<p class="small">Lengkapi identitas kelompok.</p></div>
+</div>
+
+<div class="grid">
+<div class="field">
+<label for="groupName">Nama Kelompok</label>
+<input id="groupName" data-save>
+</div>
+<div class="field">
+<label for="className">Kelas</label>
+<input id="className" data-save>
+</div>
+<div class="field">
+<label for="member1">Anggota 1</label>
+<input id="member1" data-save>
+</div>
+<div class="field">
+<label for="member2">Anggota 2</label>
+<input id="member2" data-save>
+</div>
+<div class="field">
+<label for="member3">Anggota 3</label>
+<input id="member3" data-save>
+</div>
+<div class="field">
+<label for="member4">Anggota 4</label>
+<input id="member4" data-save>
+</div>
+</div>
+</section>
+
+<!-- BAGIAN B -->
+<section class="card" id="bagianB">
+<div class="section-title">
+<span class="letter">B</span>
+<div><h2>Variabel Sistem</h2>
+<p class="small">Kenali variabel dalam sistem penyiraman otomatis.</p></div>
+</div>
+
+<div class="table-wrap">
+<table>
+<tr><th>Variabel</th><th>Fungsi</th><th>Nilai</th></tr>
+<tr><td>soil_moisture</td><td>Kelembapan tanah dari sensor</td><td>0–100%</td></tr>
+<tr><td>threshold</td><td>Ambang batas penyiraman</td>
+<td><label for="threshold">Threshold (%)</label>
+<input type="number" id="threshold" data-save value="60" min="0" max="100"></td></tr>
+<tr><td>pump_status</td><td>Status pompa</td><td>ON / OFF</td></tr>
+</table>
+</div>
+
+<div class="notice">
+⚠️ <b>Perhatian!</b><br>
+Nilai soil_moisture di luar 0–100% dianggap tidak valid (sensor rusak).
+</div>
+</section>
+
+<!-- BAGIAN C -->
+<section class="card" id="bagianC">
+<div class="section-title">
+<span class="letter">C</span>
+<div><h2>Flowchart</h2>
+<p class="small">Unggah hasil flowchart manual kelompok.</p></div>
+</div>
+
+<label class="upload" for="flowImage">
+📷<br><b>Klik atau tarik gambar flowchart ke sini</b>
+<p class="small">Format JPG, PNG, WEBP</p>
+<input type="file" id="flowImage" accept="image/*">
+</label>
+
+<img id="imagePreview" class="preview" alt="Preview flowchart">
+<div class="actions no-print">
+<button class="light" id="removeImage">Hapus Gambar</button>
+</div>
+
+<!-- EDITOR FLOWCHART -->
+<div class="editor">
+<h3>🧩 Editor Flowchart Sederhana</h3>
+<p class="small">Klik blok untuk menambahkan, atau gunakan tombol naik/turun untuk mengatur urutan.</p>
+
+<div class="block-bank" id="blockBank"></div>
+
+<h4>Urutan Flowchart Kelompok</h4>
+<div class="sequence" id="sequence"></div>
+
+<div class="actions no-print">
+<button class="light" id="clearSequence">Kosongkan</button>
+<button class="blue" id="checkSequence">Periksa Urutan</button>
+</div>
+
+<div id="sequenceFeedback" class="feedback">
+Susun langkah flowchart kelompokmu.
+</div>
+</div>
+
+<!-- MINI GAME -->
+<div class="editor">
+<h3>🎮 Mini-game: Susun Flowchart</h3>
+<p class="small">Pindahkan semua blok ke area jawaban sesuai urutan algoritma yang benar.</p>
+
+<div class="block-bank" id="gameBank"></div>
+
+<h4>Area Jawaban</h4>
+<div class="sequence" id="gameSequence"></div>
+
+<div class="actions no-print">
+<button id="checkGame">Cek Jawaban &amp; Skor</button>
+<button class="light" id="resetGame">Acak Ulang</button>
+</div>
+
+<div id="gameFeedback" class="feedback">
+Skor belum dinilai.
+</div>
+</div>
+</section>
+
+<!-- BAGIAN D -->
+<section class="card" id="bagianD">
+<div class="section-title">
+<span class="letter">D</span>
+<div><h2>Pseudocode</h2>
+<p class="small">Tuliskan algoritma sistem penyiraman otomatis.</p></div>
+</div>
+
+<div class="field">
+<label for="pseudocode">Pseudocode Kelompok</label>
+<textarea class="large" id="pseudocode" data-save
+placeholder="MULAI
+BACA soil_moisture
+...
+SELESAI"></textarea>
+</div>
+
+<div class="actions no-print">
+<button id="validatePseudo">Validasi Pseudocode</button>
+</div>
+
+<div id="pseudoFeedback" class="feedback">
+Hasil validasi akan ditampilkan di sini.
+</div>
+</section>
+
+<!-- BAGIAN E -->
+<section class="card" id="bagianE">
+<div class="section-title">
+<span class="letter">E</span>
+<div><h2>Penanganan Sensor Rusak</h2>
+<p class="small">Jelaskan tindakan sistem ketika sensor mengalami gangguan.</p></div>
+</div>
+
+<div class="table-wrap">
+<table>
+<tr><th>Kondisi</th><th>Penanganan</th></tr>
+<tr><td>soilMoisture &lt; 0</td>
+<td><textarea id="handling1" data-save></textarea></td></tr>
+<tr><td>soilMoisture &gt; 100</td>
+<td><textarea id="handling2" data-save></textarea></td></tr>
+<tr><td>Sensor tidak membaca data</td>
+<td><textarea id="handling3" data-save></textarea></td></tr>
+</table>
+</div>
+</section>
+
+<!-- BAGIAN F -->
+<section class="card" id="bagianF">
+<div class="section-title">
+<span class="letter">F</span>
+<div><h2>Tabel Uji Logika</h2>
+<p class="small">Uji keputusan sistem berdasarkan kelembapan tanah.</p></div>
+</div>
+
+<div class="table-wrap">
+<table id="testTable">
+<thead>
+<tr>
+<th>No</th>
+<th>soil_moisture</th>
+<th>Keputusan</th>
+<th>Output</th>
+<th>Sesuai?</th>
+</tr>
+</thead>
+<tbody>
+<tr data-soil="25" data-expected="ON">
+<td>1</td><td>25%</td><td class="decision">-</td><td>ON</td><td class="match">-</td>
+</tr>
+<tr data-soil="45" data-expected="ON">
+<td>2</td><td>45%</td><td class="decision">-</td><td>ON</td><td class="match">-</td>
+</tr>
+<tr data-soil="60" data-expected="OFF">
+<td>3</td><td>60%</td><td class="decision">-</td><td>OFF</td><td class="match">-</td>
+</tr>
+<tr data-soil="75" data-expected="OFF">
+<td>4</td><td>75%</td><td class="decision">-</td><td>OFF</td><td class="match">-</td>
+</tr>
+<tr data-soil="90" data-expected="OFF">
+<td>5</td><td>90%</td><td class="decision">-</td><td>OFF</td><td class="match">-</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p class="small">
+Aturan: pompa ON jika soil_moisture &lt; threshold.
+Pompa OFF jika soil_moisture ≥ threshold.
+</p>
+
+<div class="actions no-print">
+<button id="rerunTest">Uji Ulang</button>
+</div>
+
+<div class="field" style="margin-top:15px">
+<label for="logicReflection">
+Apakah flowchart &amp; pseudocode kelompokmu sudah menangani semua skenario? Jelaskan.
+</label>
+<textarea id="logicReflection" data-save></textarea>
+</div>
+</section>
+
+<!-- BAGIAN G -->
+<section class="card" id="bagianG">
+<div class="section-title">
+<span class="letter">G</span>
+<div><h2>Refleksi</h2>
+<p class="small">Jawab pertanyaan berikut berdasarkan pembelajaran hari ini.</p></div>
+</div>
+
+<div class="field">
+<label for="reflect1">1. Perbedaan paling penting antara flowchart dan pseudocode?</label>
+<textarea id="reflect1" data-save></textarea>
+</div>
+
+<div class="field">
+<label for="reflect2">2. Mengapa nilai -1 dan 120 dianggap tidak valid?</label>
+<textarea id="reflect2" data-save></textarea>
+</div>
+
+<div class="field">
+<label for="reflect3">3. Satu hal yang saya pelajari hari ini.</label>
+<textarea id="reflect3" data-save></textarea>
+</div>
+
+<div class="field">
+<label for="reflect4">4. Satu pertanyaan yang masih tersisa.</label>
+<textarea id="reflect4" data-save></textarea>
+</div>
+</section>
+
+<!-- BAGIAN H -->
+<section class="card" id="bagianH">
+<div class="section-title">
+<span class="letter">✓</span>
+<div>
+<h2>Simpan &amp; Kumpulkan</h2>
+<p class="small">Jawaban tersimpan otomatis di browser setiap 5 detik.</p>
+</div>
+</div>
+
+<p class="small" id="saveStatus">Menunggu penyimpanan otomatis...</p>
+
+<div class="actions no-print">
+<button class="red" id="resetAll">🗑️ Reset</button>
+<button id="exportWord">📝 Simpan Word</button>
+<button class="blue" id="printPage">📄 Simpan PDF</button>
+</div>
+
+<p class="small">
+Simpan Word untuk mengunduh seluruh hasil pekerjaan murid dalam format dokumen Word.
+Simpan PDF untuk menyimpan hasil pekerjaan dalam format PDF.
+</p>
+</section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+"use strict";
+
+const $ = id => document.getElementById(id);
+const KEY = "LKM_DIGITAL_FLOWCHART_V2";
+
+let editorSequence = [];
+let gameSequence = [];
+
+function notify(message){
+  const el=$("toast");
+  el.textContent=message;
+  el.classList.add("show");
+  clearTimeout(notify.timer);
+  notify.timer=setTimeout(()=>el.classList.remove("show"),2500);
+}
+
+// ====================================
+// VALIDASI THRESHOLD
+// ====================================
+function getThreshold(){
+  const raw=$("threshold").value;
+  const n=Number(raw);
+
+  if(raw.trim()==="" || !Number.isFinite(n) || n<0 || n>100){
+    notify("Threshold harus diisi dengan angka 0–100.");
+    $("threshold").focus();
+    return null;
+  }
+  return n;
+}
+
+// ====================================
+// PENYIMPANAN LOCAL STORAGE
+// ====================================
+function saveData(){
+  const data={};
+
+  document.querySelectorAll("[data-save]").forEach(el=>{
+    data[el.id]=el.value;
+  });
+
+  data.image=$("imagePreview").src || "";
+  data.editorSequence=editorSequence;
+  data.gameSequence=gameSequence;
+
+  try{
+    localStorage.setItem(KEY,JSON.stringify(data));
+    $("saveStatus").textContent=
+      "Draft tersimpan: "+new Date().toLocaleTimeString("id-ID");
+    return true;
+  }catch(e){
+    $("saveStatus").textContent=
+      "Penyimpanan gagal. Coba gunakan gambar berukuran lebih kecil.";
+    return false;
+  }
+}
+
+function loadData(){
+  try{
+    const data=JSON.parse(localStorage.getItem(KEY)||"{}");
+
+    document.querySelectorAll("[data-save]").forEach(el=>{
+      if(data[el.id]!==undefined) el.value=data[el.id];
+    });
+
+    if(data.image){
+      $("imagePreview").src=data.image;
+      $("imagePreview").style.display="block";
+    }
+
+    editorSequence=Array.isArray(data.editorSequence)
+      ?data.editorSequence:[];
+    gameSequence=Array.isArray(data.gameSequence)
+      ?data.gameSequence:[];
+  }catch(e){
+    console.log("Tidak ada draft.");
+  }
+}
+
+// ====================================
+// UPLOAD FOTO FLOWCHART
+// ====================================
+$("flowImage").addEventListener("change",e=>{
+  const file=e.target.files[0];
+
+  if(!file || !file.type.startsWith("image/")){
+    notify("File harus berupa gambar.");
+    return;
+  }
+
+  const reader=new FileReader();
+
+  reader.onload=()=>{
+    $("imagePreview").src=reader.result;
+    $("imagePreview").style.display="block";
+    saveData();
+    updateProgress();
+    notify("Foto flowchart berhasil dimuat.");
+  };
+
+  reader.readAsDataURL(file);
+});
+
+const upload=document.querySelector(".upload");
+
+upload.addEventListener("dragover",e=>{
+  e.preventDefault();
+  upload.style.background="#e8f5e9";
+});
+
+upload.addEventListener("dragleave",()=>{
+  upload.style.background="#f7fcf7";
+});
+
+upload.addEventListener("drop",e=>{
+  e.preventDefault();
+  upload.style.background="#f7fcf7";
+
+  const file=e.dataTransfer.files[0];
+  if(!file)return;
+
+  const input=$("flowImage");
+  const reader=new FileReader();
+
+  if(!file.type.startsWith("image/")){
+    notify("Pilih file gambar.");
+    return;
+  }
+
+  reader.onload=()=>{
+    $("imagePreview").src=reader.result;
+    $("imagePreview").style.display="block";
+    saveData();
+    updateProgress();
+  };
+
+  reader.readAsDataURL(file);
+});
+
+$("removeImage").onclick=()=>{
+  $("imagePreview").removeAttribute("src");
+  $("imagePreview").style.display="none";
+  $("flowImage").value="";
+  saveData();
+  updateProgress();
+};
+
+// ====================================
+// EDITOR FLOWCHART
+// ====================================
+const blocks=[
+  "MULAI",
+  "BACA soil_moisture",
+  "IF data valid?",
+  "IF soil < threshold?",
+  "POMPA ON",
+  "POMPA OFF",
+  "ERROR",
+  "SELESAI"
+];
+
+function renderEditor(){
+  const bank=$("blockBank");
+  const area=$("sequence");
+
+  bank.innerHTML="";
+  area.innerHTML="";
+
+  blocks.forEach((label,i)=>{
+    const b=document.createElement("button");
+    b.className="flow-block";
+    b.type="button";
+    b.textContent=label;
+
+    b.onclick=()=>{
+      editorSequence.push(label);
+      renderEditor();
+    };
+
+    bank.appendChild(b);
+  });
+
+  if(!editorSequence.length){
+    area.textContent="Tambahkan blok dari pilihan di atas...";
+  }
+
+  editorSequence.forEach((label,i)=>{
+    const b=document.createElement("div");
+    b.className="flow-block";
+    b.draggable=true;
+
+    const text=document.createElement("span");
+    text.textContent=label;
+    b.appendChild(text);
+
+    ["↑","↓","×"].forEach((symbol,j)=>{
+      const btn=document.createElement("button");
+      btn.type="button";
+      btn.textContent=symbol;
+      btn.setAttribute("aria-label",symbol==="×"?"Hapus blok":"Pindahkan blok");
+
+      btn.onclick=()=>{
+        if(j===0 && i>0){
+          [editorSequence[i],editorSequence[i-1]]=
+          [editorSequence[i-1],editorSequence[i]];
+        }
+        if(j===1 && i<editorSequence.length-1){
+          [editorSequence[i],editorSequence[i+1]]=
+          [editorSequence[i+1],editorSequence[i]];
+        }
+        if(j===2) editorSequence.splice(i,1);
+
+        renderEditor();
+      };
+
+      b.appendChild(btn);
+    });
+
+    b.addEventListener("dragstart",e=>{
+      e.dataTransfer.setData("index",i);
+    });
+
+    b.addEventListener("dragover",e=>e.preventDefault());
+
+    b.addEventListener("drop",e=>{
+      e.preventDefault();
+      const from=Number(e.dataTransfer.getData("index"));
+      const [item]=editorSequence.splice(from,1);
+      editorSequence.splice(i,0,item);
+      renderEditor();
+    });
+
+    area.appendChild(b);
+  });
+
+  saveData();
+  updateProgress();
+}
+
+$("clearSequence").onclick=()=>{
+  editorSequence=[];
+  renderEditor();
+};
+
+$("checkSequence").onclick=()=>{
+  const expected=[
+    "MULAI",
+    "BACA soil_moisture",
+    "IF data valid?",
+    "ERROR",
+    "IF soil < threshold?",
+    "POMPA ON",
+    "POMPA OFF",
+    "SELESAI"
+  ];
+
+  const correct=
+    JSON.stringify(editorSequence)===JSON.stringify(expected);
+
+  $("sequenceFeedback").className=
+    "feedback "+(correct?"success":"error");
+
+  $("sequenceFeedback").textContent=correct
+    ?"✔ Urutan flowchart benar!"
+    :"✘ Urutan belum tepat. Periksa kembali percabangan dan urutannya.";
+};
+
+// ====================================
+// MINI GAME FLOWCHART
+// ====================================
+const gameBlocks=[
+  "MULAI",
+  "BACA soil_moisture",
+  "IF data valid?",
+  "ERROR (data tidak valid)",
+  "IF soil < threshold?",
+  "POMPA ON",
+  "POMPA OFF",
+  "SELESAI"
+];
+
+function renderGame(){
+  const bank=$("gameBank");
+  const area=$("gameSequence");
+
+  bank.innerHTML="";
+  area.innerHTML="";
+
+  gameBlocks.filter(x=>!gameSequence.includes(x)).forEach(label=>{
+    const b=document.createElement("div");
+    b.className="flow-block";
+    b.draggable=true;
+    b.textContent=label;
+
+    b.onclick=()=>{
+      gameSequence.push(label);
+      renderGame();
+    };
+
+    b.addEventListener("dragstart",e=>{
+      e.dataTransfer.setData("gameLabel",label);
+    });
+
+    bank.appendChild(b);
+  });
+
+  if(!gameSequence.length){
+    area.textContent="Letakkan blok jawaban di sini...";
+  }
+
+  gameSequence.forEach((label,i)=>{
+    const b=document.createElement("div");
+    b.className="flow-block";
+    b.draggable=true;
+    b.textContent=label;
+
+    const remove=document.createElement("button");
+    remove.type="button";
+    remove.textContent="×";
+    remove.setAttribute("aria-label","Hapus "+label);
+    remove.onclick=()=>{
+      gameSequence.splice(i,1);
+      renderGame();
+    };
+
+    b.appendChild(remove);
+
+    b.addEventListener("dragstart",e=>{
+      e.dataTransfer.setData("gameIndex",i);
+    });
+
+    b.addEventListener("dragover",e=>e.preventDefault());
+
+    b.addEventListener("drop",e=>{
+      e.preventDefault();
+
+      const from=e.dataTransfer.getData("gameIndex");
+
+      if(from!==""){
+        const [item]=gameSequence.splice(Number(from),1);
+        gameSequence.splice(i,0,item);
+      }
+
+      renderGame();
+    });
+
+    area.appendChild(b);
+  });
+
+  saveData();
+  updateProgress();
+}
+
+$("gameSequence").addEventListener("dragover",e=>e.preventDefault());
+
+$("gameSequence").addEventListener("drop",e=>{
+  e.preventDefault();
+
+  const label=e.dataTransfer.getData("gameLabel");
+
+  if(label && !gameSequence.includes(label)){
+    gameSequence.push(label);
+    renderGame();
+  }
+});
+
+$("checkGame").onclick=()=>{
+  let score=0;
+
+  gameBlocks.forEach((label,i)=>{
+    if(gameSequence[i]===label) score++;
+  });
+
+  const percent=Math.round(score/gameBlocks.length*100);
+
+  $("gameFeedback").className=
+    "feedback "+(percent===100?"success":"error");
+
+  $("gameFeedback").textContent=
+    gameSequence.length!==gameBlocks.length
+    ?"Masih ada blok yang belum disusun. Skor sementara: "+percent+"/100"
+    :percent===100
+    ?"🎉 Hebat! Skor 100/100. Susunanmu benar!"
+    :"Skor: "+percent+"/100. Coba periksa kembali urutan blok.";
+};
+
+$("resetGame").onclick=()=>{
+  gameSequence=[];
+  renderGame();
+  $("gameFeedback").textContent="Game diulang. Selamat mencoba!";
+};
+
+// ====================================
+// VALIDASI PSEUDOCODE
+// ====================================
+$("validatePseudo").onclick=()=>{
+  const code=$("pseudocode").value.toUpperCase();
+
+  const checks=[
+    ["Mengandung MULAI",/\bMULAI\b/.test(code)],
+    ["Mengandung SELESAI",/\bSELESAI\b/.test(code)],
+    ["Mengandung IF dan ELSE",
+      /\bIF\b/.test(code)&&/\bELSE\b/.test(code)],
+    ["Memeriksa batas 0 dan 100",
+      /0/.test(code)&&/100/.test(code)]
+  ];
+
+  $("pseudoFeedback").innerHTML="";
+
+  checks.forEach(([label,ok])=>{
+    const p=document.createElement("p");
+    p.className=ok?"success":"error";
+    p.textContent=(ok?"✔ ":"✘ ")+label;
+    $("pseudoFeedback").appendChild(p);
+  });
+};
+
+// ====================================
+// SIMULASI TABEL UJI LOGIKA
+// ====================================
+function runSimulation(){
+  const threshold=getThreshold();
+  if(threshold===null)return;
+
+  document.querySelectorAll("#testTable tbody tr")
+  .forEach(row=>{
+    const soil=Number(row.dataset.soil);
+    const expected=row.dataset.expected;
+
+    const output=soil<threshold?"ON":"OFF";
+    const decision=soil<threshold
+      ?"soil < threshold"
+      :"soil ≥ threshold";
+
+    const correct=output===expected;
+
+    row.querySelector(".decision").textContent=decision;
+    row.querySelector(".match").textContent=correct?"✓":"×";
+
+    row.className=correct?"good-row":"bad-row";
+  });
+}
+
+$("rerunTest").onclick=()=>{
+  runSimulation();
+  notify("Simulasi selesai.");
+};
+
+$("threshold").addEventListener("change",runSimulation);
+
+// ====================================
+// PROGRES PENGERJAAN
+// ====================================
+function updateProgress(){
+  const ids=[
+    "groupName","className",
+    "member1","member2","member3","member4",
+    "pseudocode",
+    "handling1","handling2","handling3",
+    "logicReflection",
+    "reflect1","reflect2","reflect3","reflect4"
+  ];
+
+  let completed=ids.filter(id=>$(id).value.trim()).length;
+
+  if($("imagePreview").src)completed++;
+  if(editorSequence.length)completed++;
+  if(gameSequence.length)completed++;
+
+  const percent=Math.round(completed/(ids.length+3)*100);
+
+  $("progressFill").style.width=percent+"%";
+  $("progressText").textContent=percent+"%";
+}
+
+document.querySelectorAll("[data-save]").forEach(el=>{
+  el.addEventListener("input",updateProgress);
+});
+
+// ====================================
+// CETAK PDF
+// ====================================
+$("printPage").onclick=()=>{
+  if(getThreshold()===null)return;
+
+  runSimulation();
+  saveData();
+
+  window.print();
+};
+
+// ====================================
+// EKSPOR WORD
+// ====================================
+$("exportWord").onclick=()=>{
+  if(getThreshold()===null)return;
+
+  runSimulation();
+  saveData();
+
+  const escapeHTML=value=>{
+    return String(value??"")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/\n/g,"<br>");
+  };
+
+  const val=id=>escapeHTML($(id).value.trim()||"(Belum diisi)");
+
+  const fields=[
+    ["IDENTITAS KELOMPOK",[
+      ["Nama Kelompok","groupName"],
+      ["Kelas","className"],
+      ["Anggota 1","member1"],
+      ["Anggota 2","member2"],
+      ["Anggota 3","member3"],
+      ["Anggota 4","member4"]
+    ]],
+    ["VARIABEL SISTEM",[
+      ["Threshold","threshold"]
+    ]],
+    ["PSEUDOCODE",[
+      ["Pseudocode","pseudocode"]
+    ]],
+    ["PENANGANAN SENSOR RUSAK",[
+      ["soilMoisture < 0","handling1"],
+      ["soilMoisture > 100","handling2"],
+      ["Sensor tidak membaca data","handling3"]
+    ]],
+    ["REFLEKSI UJI LOGIKA",[
+      ["Apakah flowchart dan pseudocode sudah menangani semua skenario?","logicReflection"]
+    ]],
+    ["REFLEKSI PEMBELAJARAN",[
+      ["Perbedaan flowchart dan pseudocode","reflect1"],
+      ["Mengapa -1 dan 120 tidak valid?","reflect2"],
+      ["Hal yang dipelajari","reflect3"],
+      ["Pertanyaan yang tersisa","reflect4"]
+    ]]
+  ];
+
+  let content=`
+  <h1>LKM Digital — Flowchart &amp; Pseudocode
+  Sistem Penyiraman Otomatis</h1>
+  `;
+
+  fields.forEach(([title,items])=>{
+    content+=`<h2>${title}</h2><table>`;
+
+    items.forEach(([label,id])=>{
+      content+=`
+      <tr>
+        <th>${label}</th>
+        <td>${val(id)}</td>
+      </tr>`;
+    });
+
+    content+="</table>";
+  });
+
+  content+=`
+  <h2>EDITOR FLOWCHART</h2>
+  <p>${escapeHTML(editorSequence.join(" → ")||"(Belum disusun)")}</p>
+
+  <h2>MINI-GAME FLOWCHART</h2>
+  <p>${escapeHTML(gameSequence.join(" → ")||"(Belum disusun)")}</p>
+
+  <h2>HASIL UJI LOGIKA</h2>
+  <table>
+  <tr>
+    <th>No</th><th>Soil Moisture</th>
+    <th>Keputusan</th><th>Output</th><th>Sesuai?</th>
+  </tr>`;
+
+  document.querySelectorAll("#testTable tbody tr").forEach(row=>{
+    content+=`
+    <tr>
+      <td>${row.cells[0].textContent}</td>
+      <td>${row.cells[1].textContent}</td>
+      <td>${escapeHTML(row.querySelector(".decision").textContent)}</td>
+      <td>${row.cells[3].textContent}</td>
+      <td>${row.querySelector(".match").textContent}</td>
+    </tr>`;
+  });
+
+  content+="</table>";
+
+  if($("imagePreview").src){
+    content+=`
+    <h2>FOTO FLOWCHART KELOMPOK</h2>
+    <img src="${$("imagePreview").src}"
+    style="max-width:650px;width:100%">`;
+  }
+
+  const documentHTML=`
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="utf-8">
+  <style>
+    body{font-family:Arial,sans-serif;line-height:1.5;color:#222}
+    h1{color:#2e7d32;font-size:22px}
+    h2{color:#2e7d32;margin-top:25px}
+    table{border-collapse:collapse;width:100%;margin-bottom:15px}
+    td,th{border:1px solid #aaa;padding:8px;text-align:left}
+    th{background:#e8f5e9}
+    img{max-width:100%}
+  </style>
+  </head>
+  <body>${content}</body>
+  </html>`;
+
+  const blob=new Blob(
+    ["\ufeff",documentHTML],
+    {type:"application/msword"}
+  );
+
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+
+  a.href=url;
+  a.download="Hasil_LKM_Flowchart_Pseudocode.doc";
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+
+  notify("Hasil kerja berhasil diunduh dalam format Word.");
+};
+
+// ====================================
+// RESET SELURUH JAWABAN
+// ====================================
+$("resetAll").onclick=()=>{
+  if(!confirm("Yakin ingin menghapus seluruh jawaban?"))return;
+
+  localStorage.removeItem(KEY);
+
+  document.querySelectorAll("[data-save]").forEach(el=>{
+    el.value=el.id==="threshold"?"60":"";
+  });
+
+  $("imagePreview").removeAttribute("src");
+  $("imagePreview").style.display="none";
+  $("flowImage").value="";
+
+  editorSequence=[];
+  gameSequence=[];
+
+  renderEditor();
+  renderGame();
+  runSimulation();
+  updateProgress();
+
+  $("saveStatus").textContent="Seluruh jawaban telah direset.";
+
+  notify("Jawaban berhasil direset.");
+};
+
+// ====================================
+// INISIALISASI DAN AUTOSAVE 5 DETIK
+// ====================================
+loadData();
+
+renderEditor();
+renderGame();
+runSimulation();
+updateProgress();
+
+setInterval(()=>{
+  saveData();
+},5000);
+
+})();
+</script>
+</body>
+</html>
